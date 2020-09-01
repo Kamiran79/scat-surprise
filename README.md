@@ -1,68 +1,174 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## To use this repo
+1. **clone the repo**
+1. **mpm i**
+1. **npm install react-router-dom**
+1. for the time use moment also you to install that for react use **npm install --save moment react-moment** or 
+**npm install --save moment-timezone** for time zone
+for more information visit this link **https://www.npmjs.com/package/react-moment**
 
-## Available Scripts
+### if you want install the whole start from biggning use the follow steps
+before following the steps this the linke Also **https://reactrouter.com/web/guides/quick-start**
 
-In the project directory, you can run:
 
-### `npm start`
+You can install React Router from the public npm registry with either npm or yarn. Since we’re building a web app, we’ll use react-router-dom in this guide.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+npm install react-router-dom
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+Next, copy/paste either of the following examples into src/App.js.
+1st Example: Basic Routing
 
-### `npm test`
+In this example we have 3 “pages” handled by the router: a home page, an about page, and a users page. As you click around on the different <Link>s, the router renders the matching <Route>.
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Note: Behind the scenes a <Link> renders an <a> with a real href, so people using the keyboard for navigation or screen readers will still be able to use this app.
+```
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 
-### `npm run build`
+export default function App() {
+  return (
+    <Router>
+      <div>
+        <nav>
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/about">About</Link>
+            </li>
+            <li>
+              <Link to="/users">Users</Link>
+            </li>
+          </ul>
+        </nav>
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+        {/* A <Switch> looks through its children <Route>s and
+            renders the first one that matches the current URL. */}
+        <Switch>
+          <Route path="/about">
+            <About />
+          </Route>
+          <Route path="/users">
+            <Users />
+          </Route>
+          <Route path="/">
+            <Home />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
+  );
+}
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+function Home() {
+  return <h2>Home</h2>;
+}
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+function About() {
+  return <h2>About</h2>;
+}
 
-### `npm run eject`
+function Users() {
+  return <h2>Users</h2>;
+}
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+2nd Example: Nested Routing
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+This example shows how nested routing works. The route /topics loads the Topics component, which renders any further <Route>'s conditionally on the paths :id value.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useRouteMatch,
+  useParams
+} from "react-router-dom";
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+export default function App() {
+  return (
+    <Router>
+      <div>
+        <ul>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/about">About</Link>
+          </li>
+          <li>
+            <Link to="/topics">Topics</Link>
+          </li>
+        </ul>
 
-## Learn More
+        <Switch>
+          <Route path="/about">
+            <About />
+          </Route>
+          <Route path="/topics">
+            <Topics />
+          </Route>
+          <Route path="/">
+            <Home />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
+  );
+}
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+function Home() {
+  return <h2>Home</h2>;
+}
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+function About() {
+  return <h2>About</h2>;
+}
 
-### Code Splitting
+function Topics() {
+  let match = useRouteMatch();
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+  return (
+    <div>
+      <h2>Topics</h2>
 
-### Analyzing the Bundle Size
+      <ul>
+        <li>
+          <Link to={`${match.url}/components`}>Components</Link>
+        </li>
+        <li>
+          <Link to={`${match.url}/props-v-state`}>
+            Props v. State
+          </Link>
+        </li>
+      </ul>
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+      {/* The Topics page has its own <Switch> with more routes
+          that build on the /topics URL path. You can think of the
+          2nd <Route> here as an "index" page for all topics, or
+          the page that is shown when no topic is selected */}
+      <Switch>
+        <Route path={`${match.path}/:topicId`}>
+          <Topic />
+        </Route>
+        <Route path={match.path}>
+          <h3>Please select a topic.</h3>
+        </Route>
+      </Switch>
+    </div>
+  );
+}
 
-### Making a Progressive Web App
+function Topic() {
+  let { topicId } = useParams();
+  return <h3>Requested topic ID: {topicId}</h3>;
+}
+```
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
 
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
