@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import Birb from '../Birb/Birb';
+import Birb from '../../shared/Birb';
 
 import birbsData from '../../../helpers/data/birbsData';
 import authData from '../../../helpers/data/authData';

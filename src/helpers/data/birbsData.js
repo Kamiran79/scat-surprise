@@ -12,7 +12,7 @@ const getbirbsByUid = (uid) => new Promise((resolve, reject) => {
     .catch((err) => reject(err));
 });
 
-const getSingleBirb = (birbId) => axios.get(`${baseUrl}/birbs/${birbId}.json`);
+const getSingleBirbById = (birbId) => axios.get(`${baseUrl}/birbs/${birbId}.json`);
 
 const deleteBirb = (birbId) => axios.delete(`${baseUrl}/birbs/${birbId}.json`);
 
@@ -20,7 +20,7 @@ const createBirb = (newBirb) => axios.post(`${baseUrl}/birbs.json`, newBirb);
 
 export default {
   getbirbsByUid,
-  getSingleBirb,
+  getSingleBirbById,
   deleteBirb,
   createBirb,
 };
