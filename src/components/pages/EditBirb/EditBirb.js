@@ -1,7 +1,7 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
 import _ from 'underscore';
-import moment from 'moment';
+// import moment from 'moment';
 
 import authData from '../../../helpers/data/authData';
 import birbsData from '../../../helpers/data/birbsData';
@@ -102,7 +102,7 @@ class EditBirb extends React.Component {
           wasSleeping: data.wasSleeping,
           location: data.location,
           notes: data.notes,
-          seenAt: moment(data.seenAt).format('MM-DD-YYYY'),
+          seenAt: new Date(data.seenAt),
         });
       })
       .catch((err) => console.error('get birb by Id faild ', err));
@@ -216,7 +216,7 @@ class EditBirb extends React.Component {
               Seen At:{' '}
             </label>
             <DatePicker
-              value={seenAt}
+              selected={seenAt}
               onChange={this.seenAtEvent}
               showTimeSelect
             />

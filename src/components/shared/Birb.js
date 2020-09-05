@@ -30,7 +30,7 @@ class Birb extends React.Component {
     const editLink = `/edit/${birb.id}`;
     return (
       <div className="col-4 mb-3">
-        <div className="card text-center boarder-0" style={{ background: `"${birb.color}"` }}>
+        <div className="card text-center boarder-0" style={{ background: `${birb.color}` }}>
           <div className="card-header">
             <h5>{birb.type}</h5>
             <Link to={editLink} className="btn btn-success mr-1 float-left"><i className="fas fa-pencil-alt"></i></Link>
