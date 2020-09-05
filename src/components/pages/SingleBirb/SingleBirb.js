@@ -57,7 +57,7 @@ const SingleBirb = (props) => {
       <p>Last seen on: {moment(birb.seenAt).format('MMMY Do YYYY, h:mma')}</p>
       <p>Note: {birb.notes}</p>
       <p>Was Sleeping: {birb.wasSleeping ? 'Yes' : 'No'}</p>
-      <button className="btn btn-danger " onClick={deleteSinglebirb}><i className="fas fa-trash-alt "></i></button>
+      <button className="btn btn-danger col-12" onClick={deleteSinglebirb}><i className="fas fa-trash-alt "></i></button>
     </div>
   );
 };
